@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../models/memory_card_data.dart';
 
-/// In-memory game state for a 4×5 board (10 animal pairs).
 class MemoryGame {
   MemoryGame() {
     reset();
@@ -77,7 +76,6 @@ class MemoryGame {
     cards = deck;
   }
 
-  /// Returns true when the board is fully matched after this tap.
   Future<bool> handleTap(int index) async {
     if (isBusy || isWon) return false;
     if (index < 0 || index >= cards.length) return false;

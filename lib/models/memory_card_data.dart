@@ -1,4 +1,3 @@
-/// One card on the memory board (face-down until flipped).
 class MemoryCardData {
   MemoryCardData({
     required this.id,

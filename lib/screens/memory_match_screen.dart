@@ -7,7 +7,6 @@ class MemoryMatchScreen extends StatefulWidget {
   const MemoryMatchScreen({super.key, MemoryGame? game})
       : _initialGame = game;
 
-  /// Optional injected game (used by tests / screenshot generation).
   final MemoryGame? _initialGame;
 
   @override
