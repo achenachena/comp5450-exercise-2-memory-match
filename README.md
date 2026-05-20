@@ -89,12 +89,18 @@ Included in `README.pdf` and optional PNG files in this folder:
 - `screenshot-home.png` — board with face-down cards
 - `screenshot-play.png` — flipped animal cards
 
+## GitHub
+
+Public repository:
+
+https://github.com/achenachena/comp5450-exercise-2-memory-match
+
 ## Submission checklist (Exercise 2 brief)
 
 - [x] Flutter/Dart implementation
 - [x] `README.pdf` with run steps, structure, screenshots
-- [ ] Public GitHub repository (upload full project)
-- [ ] ZIP for D2L: Dart files, assets, `README.pdf`
+- [x] Public GitHub repository (upload full project)
+- [x] ZIP for D2L: Dart files, assets, `README.pdf` (`MemoryMatch-Exercise2.zip`)
 
 ## Grading notes (from rubric)
 
