@@ -1,105 +1,138 @@
 # Memory Match (Exercise 2)
 
-COMP5450 — Liang Mingchen
+**Course:** COMP5450 Mobile Programming  
+**Student:** Liang Mingchen  
+**Assignment:** Exercise 2 — Memory Matching Flutter Game (30 points)
 
-Flutter memory game for Exercise 2. The board is 4×5 (20 cards, 10 pairs). You flip two cards at a time and try to find matching animals. The layout follows the handout mockup: purple header, move count on the right, colorful card backs with `?`, and a Restart button at the bottom.
+Flutter memory game for Exercise 2. The board is **4×5** (20 cards, 10 pairs). You flip two cards per turn and try to find matching animals. The UI follows the handout mockup: purple **Memory Match** title, move count on the right, colorful card backs with **?**, animal faces when flipped, and a **Restart** button.
 
-## What it does
+## What the app does
 
-- 4×5 grid, 10 pairs (emoji animals: 🦘🦓🐯🦁🐻🐼🦊🐵🐨🐧)
-- Two flips per turn; matching cards stay up, wrong pairs flip back after a beat
-- Move counter in the app bar
-- “Find all matching pairs! 🐾” under the title
-- Restart clears the board and reshuffles
-- Small win dialog when you clear the board
+- **Grid:** 4 columns × 5 rows (20 cards total, 10 matching pairs).
+- **Animals:** 🦘 🦓 🐯 🦁 🐻 🐼 🦊 🐵 🐨 🐧 (shown as emoji on the card face).
+- **Turn flow:** Tap one card, then another. If they match, both stay face-up. If not, they flip back after about 750 ms.
+- **Moves:** Each time you compare two face-up cards, the move counter increases by 1 (first flip alone does not count).
+- **Header:** “Find all matching pairs! 🐾” and a matched-pairs line under the title.
+- **Restart:** Shuffles a new deck and resets moves.
+- **Win:** Dialog when all 10 pairs are found.
 
-Game state lives in memory only—no API or database.
+There is no backend, database, or network code. Questions and board state are kept in memory inside the app.
 
-## Tech
+## How the code is organized
 
-- Flutter / Dart
-- `lib/game/memory_game.dart` — shuffle, match check, moves
-- `lib/screens/memory_match_screen.dart` — UI
-- `lib/widgets/memory_card_tile.dart` — card + flip animation
-- `test/memory_game_test.dart` and `test/widget_test.dart`
+| File | Role |
+|------|------|
+| `lib/main.dart` | Starts the app, sets theme, loads `MemoryMatchScreen`. |
+| `lib/models/memory_card_data.dart` | One card: symbol, back color index, face-up / matched flags. |
+| `lib/game/memory_game.dart` | Shuffle deck, handle taps, moves, win check. |
+| `lib/screens/memory_match_screen.dart` | App bar, grid, restart button, win dialog. |
+| `lib/widgets/memory_card_tile.dart` | Single card UI and flip animation. |
+| `test/memory_game_test.dart` | Unit tests for game rules. |
+| `test/widget_test.dart` | UI smoke tests (loads screen, restart, back button). |
 
-## Project layout
+## Configure (first-time setup)
 
-```text
-lib/
-  main.dart
-  models/memory_card_data.dart
-  game/memory_game.dart
-  screens/memory_match_screen.dart
-  widgets/memory_card_tile.dart
-test/
-  widget_test.dart
-  memory_game_test.dart
-android/  ios/  web/   (platform folders from flutter create)
-pubspec.yaml
-README.md
-README.pdf
-screenshot-home.png
-screenshot-play.png
-```
-
-## Setup
-
-Install Flutter and the Android Studio Flutter plugin, then:
+1. **Install Flutter** (stable channel): https://docs.flutter.dev/get-started/install  
+2. **Install Android Studio** and add the **Flutter** and **Dart** plugins.  
+3. Open a terminal in the project folder and run:
 
 ```bash
 flutter doctor
-cd exercise-2    # or wherever you cloned this repo
+```
+
+Fix anything marked with ✗ (common fixes: `flutter doctor --android-licenses`, install Xcode command-line tools on Mac for iOS).
+
+4. Get packages:
+
+```bash
+cd exercise-2
 flutter pub get
 ```
 
-Open the folder in Android Studio (the one with `pubspec.yaml`), pick an emulator or a plugged-in phone, and hit Run.
+5. **Open in Android Studio:** File → Open → select this folder (the one that contains `pubspec.yaml`). Wait for Gradle sync / Pub get to finish.
 
-I usually test on the Android emulator; the rubric mentions a small penalty if you only show it in Chrome, and a small bonus if you demo on a real device.
+6. **Pick a device:** Tools → Device Manager (Android emulator) or plug in a phone with USB debugging enabled. Run `flutter devices` to confirm Flutter sees it.
 
-## Run
+For marking, the exercise rubric prefers showing the app on an **emulator or phone**, not only in Chrome.
+
+## Run the app
+
+**From Android Studio:** Select the device, then click Run (green play).
+
+**From terminal:**
 
 ```bash
 flutter pub get
 flutter run
 ```
 
-Debug APK:
+**Debug APK:**
 
 ```bash
 flutter build apk --debug
 ```
 
-APK path: `build/app/outputs/flutter-apk/app-debug.apk`
+Output: `build/app/outputs/flutter-apk/app-debug.apk`
 
-Web (quick check only):
+**Web (optional preview only):**
 
 ```bash
 flutter run -d chrome
 ```
 
-Before submit I ran:
+## Exact project structure
+
+```text
+exercise-2/
+├── lib/
+│   ├── main.dart
+│   ├── models/
+│   │   └── memory_card_data.dart
+│   ├── game/
+│   │   └── memory_game.dart
+│   ├── screens/
+│   │   └── memory_match_screen.dart
+│   └── widgets/
+│       └── memory_card_tile.dart
+├── test/
+│   ├── memory_game_test.dart
+│   └── widget_test.dart
+├── android/                 # Android host (Gradle, MainActivity)
+├── ios/                     # iOS host
+├── web/                     # Web host
+├── linux/ macos/ windows/   # Desktop hosts from flutter create
+├── pubspec.yaml
+├── analysis_options.yaml
+├── README.md
+├── README.pdf               # Submission document (this content + screenshots)
+├── screenshot-home.png
+└── screenshot-play.png
+```
+
+## Tests run before submit
 
 ```bash
 flutter analyze
 flutter test
 ```
 
+Both complete with no errors in the final submission build.
+
 ## Screenshots
 
-`README.pdf` has the screenshots required for the exercise. PNG copies are in the repo root:
+Included in this PDF and saved as PNG in the project root:
 
-- `screenshot-home.png`
-- `screenshot-play.png`
+- **screenshot-home.png** — board with face-down cards  
+- **screenshot-play.png** — gameplay with some cards flipped  
 
 ## GitHub
 
 https://github.com/achenachena/comp5450-exercise-2-memory-match
 
-## Submit to D2L
+## D2L submission
 
-Zip the project (Dart files, images, `README.pdf`). I keep a local copy as `MemoryMatch-Exercise2.zip` (not in git because of size).
+Upload a ZIP containing Dart source, images, and `README.pdf`. Local package name: `MemoryMatch-Exercise2.zip`.
 
 ## Notes
 
-Individual exercise. If something does not run on your machine, start with `flutter doctor` and make sure a device or emulator is listed when you run `flutter devices`.
+Individual exercise. If the app does not start, run `flutter doctor` and `flutter devices` first.
