@@ -1,117 +1,143 @@
-# Memory Match (Exercise 2)
+# Exercise 2: Memory Matching Flutter Game
 
-Flutter/Dart memory matching game for **COMP5450 Mobile Programming** (Exercise 2).
+**Course:** COMP5450 / CS5450 Mobile Programming  
+**Student:** Liang Mingchen  
+**Instructor:** Dr. Sabah Mohammed  
+**Type:** Individual exercise (30 points)
 
-The app shows a **4×5 grid** (20 cards, 10 animal pairs). Players flip two cards at a time, try to find matching pairs, and can restart at any time. The header shows the current **move count**, similar to the course mockup.
+Flutter/Dart implementation of a **Memory Match** game with a **4×5 card grid** (10 animal pairs), matching the course mockup: purple title bar, move counter, colorful card backs with **?**, animal faces when flipped, and a **Restart** button.
 
-## Tech stack
+## Assignment requirements (checklist)
 
-- Flutter / Dart
-- Material 3 UI
-- In-memory game state (no backend)
+| Requirement | Status |
+|-------------|--------|
+| 1. Flutter/Dart source code | Done |
+| 2. `README.pdf` — configure, run, screenshots, exact project structure | Done (`README.pdf`) |
+| 3. Public GitHub — full project | Done (link below) |
+| 4. D2L ZIP — Dart files, images, `README.pdf` | Done (`MemoryMatch-Exercise2.zip`) |
 
-## Features
+## GitHub
 
-- Title bar: **Memory Match** with move counter badge
+https://github.com/achenachena/comp5450-exercise-2-memory-match
+
+## Features (functional)
+
+- **4 columns × 5 rows** = 20 cards, **10 pairs** of animals (emoji: 🦘🦓🐯🦁🐻🐼🦊🐵🐨🐧)
+- Tap two cards per turn; **match** stays face-up, **mismatch** flips back after a short delay
+- **Move counter** in the app bar (target-style badge, like the mockup)
 - Subtitle: **Find all matching pairs! 🐾**
-- Colorful card backs with **?** and animal emoji on the front
-- Flip animation and short delay before mismatched cards turn back
-- Win dialog when all pairs are found
-- **Restart** button to shuffle and play again
-- Responsive layout (centered board on wider screens)
+- **Restart** shuffles the deck and resets moves
+- **Win dialog** when all pairs are found
+- **3D flip animation** on cards
 
-## Project structure
+## Configure (first-time setup)
 
-```text
-exercise-2/
-├── lib/
-│   ├── main.dart                      App entry + theme
-│   ├── models/memory_card_data.dart   Card model
-│   ├── game/memory_game.dart          Shuffle, matching, moves, win logic
-│   ├── screens/memory_match_screen.dart   Main UI
-│   └── widgets/memory_card_tile.dart  Single card widget
-├── test/widget_test.dart              Widget tests
-├── pubspec.yaml
-├── README.md
-└── README.pdf                         Submission PDF (screenshots + structure)
-```
-
-## How to run
-
-### Requirements
-
-- Flutter SDK (stable channel)
-- Android Studio and/or VS Code with Flutter extension
-- Android emulator, iOS simulator, Chrome, or a physical device
-
-Check setup:
+1. Install **Flutter SDK** (stable): https://docs.flutter.dev/get-started/install  
+2. Install **Android Studio** (recommended) with Flutter and Dart plugins.  
+3. Verify tooling:
 
 ```bash
 flutter doctor
 ```
 
-### Android / iOS / device
+Fix any issues `flutter doctor` reports (Android licenses, Xcode for iOS, etc.).
+
+4. Clone or download this project, then:
 
 ```bash
-cd exercises/exercise-2
+cd exercises/exercise-2   # or your clone path
+flutter pub get
+```
+
+### Open in Android Studio
+
+1. **File → Open** and select the `exercise-2` folder (project root with `pubspec.yaml`).  
+2. Wait for **Pub get** / Gradle sync to finish.  
+3. Choose a device (Android emulator, iOS simulator, or connected phone).  
+4. Click **Run**.
+
+> For grading: run on an **Android emulator** or **physical device**, not only Chrome, to avoid the rubric’s “web only” adjustment.
+
+## Run
+
+```bash
 flutter pub get
 flutter run
 ```
 
-Pick your device when prompted. Running on a **physical phone** is recommended for the course rubric bonus.
+**Android APK (debug):**
 
-### Chrome (web)
+```bash
+flutter build apk --debug
+# Output: build/app/outputs/flutter-apk/app-debug.apk
+```
+
+**Chrome (optional preview):**
 
 ```bash
 flutter run -d chrome
 ```
 
-### Build APK (Android)
+## Exact project structure
 
-```bash
-flutter build apk --debug
+```text
+exercise-2/
+├── lib/
+│   ├── main.dart                         # App entry, theme, MaterialApp
+│   ├── models/
+│   │   └── memory_card_data.dart         # Card model (symbol, face state)
+│   ├── game/
+│   │   └── memory_game.dart              # Shuffle, flip logic, moves, win
+│   ├── screens/
+│   │   └── memory_match_screen.dart      # App bar, grid, restart, dialogs
+│   └── widgets/
+│       └── memory_card_tile.dart         # Card UI + flip animation
+├── test/
+│   ├── widget_test.dart                  # UI smoke tests
+│   └── memory_game_test.dart             # Game logic unit tests
+├── android/                              # Android host project (Gradle)
+├── ios/                                  # iOS host project
+├── web/                                  # Web host files
+├── linux/ macos/ windows/                # Desktop host projects
+├── pubspec.yaml                          # Dependencies & metadata
+├── analysis_options.yaml                 # Linter rules
+├── README.md                             # This file
+├── README.pdf                            # Submission PDF (with screenshots)
+├── screenshot-home.png                   # Screenshot: board face-down
+├── screenshot-play.png                   # Screenshot: cards flipped
+└── MemoryMatch-Exercise2.zip             # D2L package (generated locally)
 ```
 
-Output: `build/app/outputs/flutter-apk/app-debug.apk`
+**Dart source files (core logic):** all files under `lib/` and `test/` as listed above.
 
-## Checks used during development
+**Images in submission:** `screenshot-home.png`, `screenshot-play.png`, plus platform icons under `android/`, `ios/`, `web/`.
+
+## Quality checks
 
 ```bash
-flutter analyze
-flutter test
-flutter build web
+flutter analyze    # no issues
+flutter test       # widget + game logic tests
 ```
 
 ## Screenshots
 
-Included in `README.pdf` and optional PNG files in this folder:
+Included in **README.pdf** and as PNG files in the project root:
 
-- `screenshot-home.png` — board with face-down cards
-- `screenshot-play.png` — flipped animal cards
+- `screenshot-home.png` — home board with face-down cards  
+- `screenshot-play.png` — gameplay with flipped animal cards  
 
-## GitHub
+## Grading rubric alignment (30 pts)
 
-Public repository:
+| Rubric area | How this project addresses it |
+|-------------|-------------------------------|
+| **Programming (Flutter/Dart)** | Layered `lib/` layout, unit + widget tests, clean `flutter analyze` |
+| **Functionality (emulator/device)** | Full match flow, moves, restart, win; runs on Android/iOS |
+| **App design & responsive UI** | Mockup-style colors, 4×5 grid, flip animation, centered layout on wide screens |
 
-https://github.com/achenachena/comp5450-exercise-2-memory-match
-
-## Submission checklist (Exercise 2 brief)
-
-- [x] Flutter/Dart implementation
-- [x] `README.pdf` with run steps, structure, screenshots
-- [x] Public GitHub repository (upload full project)
-- [x] ZIP for D2L: Dart files, assets, `README.pdf` (`MemoryMatch-Exercise2.zip`)
-
-## Grading notes (from rubric)
-
-| Area | What we targeted |
-|------|------------------|
-| Programming (Flutter/Dart) | Clean structure, tests, `flutter analyze` clean |
-| Functionality | Matching logic, moves, restart, win state |
-| Design / responsive | Mockup-style colors, grid, phone-friendly layout |
-
-**Tip:** Demo on an Android emulator or real device—not web only—to avoid the “Chrome only” penalty.
+**Presentation:** Be ready to demo live in class (required for full marks).  
+**Bonus (+2):** Demo on a **physical phone**.  
+**Avoid (-2):** Chrome-only demo.
 
 ## Author
 
-Liang Mingchen — individual exercise submission.
+Liang Mingchen — individual work for Exercise 2.

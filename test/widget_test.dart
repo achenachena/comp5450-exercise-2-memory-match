@@ -21,4 +21,14 @@ void main() {
 
     expect(find.text('0'), findsOneWidget);
   });
+
+  testWidgets('Back on home screen shows feedback', (WidgetTester tester) async {
+    await tester.pumpWidget(const MemoryMatchApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byTooltip('Back'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('You are on the main game screen.'), findsOneWidget);
+  });
 }

@@ -4,14 +4,18 @@ import '../game/memory_game.dart';
 import '../widgets/memory_card_tile.dart';
 
 class MemoryMatchScreen extends StatefulWidget {
-  const MemoryMatchScreen({super.key});
+  const MemoryMatchScreen({super.key, MemoryGame? game})
+      : _initialGame = game;
+
+  /// Optional injected game (used by tests / screenshot generation).
+  final MemoryGame? _initialGame;
 
   @override
   State<MemoryMatchScreen> createState() => _MemoryMatchScreenState();
 }
 
 class _MemoryMatchScreenState extends State<MemoryMatchScreen> {
-  final MemoryGame _game = MemoryGame();
+  late final MemoryGame _game = widget._initialGame ?? MemoryGame();
 
   static const Color _purple = Color(0xFF7C3AED);
   static const Color _purpleDark = Color(0xFF5B21B6);
@@ -66,11 +70,19 @@ class _MemoryMatchScreenState extends State<MemoryMatchScreen> {
         scrolledUnderElevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded, color: _purple),
+          tooltip: 'Back',
           onPressed: () {
             final navigator = Navigator.of(context);
             if (navigator.canPop()) {
               navigator.pop();
+              return;
             }
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('You are on the main game screen.'),
+                duration: Duration(seconds: 2),
+              ),
+            );
           },
         ),
         title: const Text(
@@ -121,23 +133,21 @@ class _MemoryMatchScreenState extends State<MemoryMatchScreen> {
                       ),
                       const SizedBox(height: 16),
                       Expanded(
-                        child: GridView.builder(
+                        child: GridView.count(
+                          crossAxisCount: MemoryGame.columns,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: 0.82,
                           physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: MemoryGame.columns,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 0.82,
-                          ),
-                          itemCount: _game.cards.length,
-                          itemBuilder: (context, index) {
-                            return MemoryCardTile(
+                          children: List.generate(
+                            _game.cards.length,
+                            (index) => MemoryCardTile(
+                              key: ValueKey('card-$index'),
                               card: _game.cards[index],
                               enabled: !_game.isBusy && !_game.isWon,
                               onTap: () => _onCardTap(index),
-                            );
-                          },
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -184,7 +194,7 @@ class _MovesBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.track_changes_rounded, size: 18, color: Colors.purple.shade700),
+          Icon(Icons.adjust_rounded, size: 18, color: Colors.purple.shade700),
           const SizedBox(width: 6),
           Text(
             '$moves',
