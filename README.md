@@ -129,10 +129,6 @@ Included in this PDF and saved as PNG in the project root:
 
 https://github.com/achenachena/comp5450-exercise-2-memory-match
 
-## D2L submission
-
-Upload a ZIP containing Dart source, images, and `README.pdf`. Local package name: `MemoryMatch-Exercise2.zip`.
-
 ## Notes
 
 Individual exercise. If the app does not start, run `flutter doctor` and `flutter devices` first.
